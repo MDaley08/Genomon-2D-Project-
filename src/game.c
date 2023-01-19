@@ -8,7 +8,7 @@ int main(int argc, char * argv[])
     /*variable declarations*/
     int done = 0;
     const Uint8 * keys;
-    Sprite *sprite;
+    Sprite *sprite, *sprite2;
     
     int mx,my;
     float mf = 0;
@@ -32,6 +32,7 @@ int main(int argc, char * argv[])
     
     /*demo setup*/
     sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
+    sprite2 = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16,0);
     /*main game loop*/
     while(!done)

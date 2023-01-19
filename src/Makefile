@@ -10,8 +10,8 @@
 #
 
 # Linux
-PROJECT = gf2d
-CC      = gcc
+PROJECT = genomon
+CC      = gcc-12
 
 LIB_LIST = ../gfc/libs/libgfc.a ../gfc/simple_json/libs/libsj.a ../gfc/simple_logger/libs/libsl.a 
 OBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
