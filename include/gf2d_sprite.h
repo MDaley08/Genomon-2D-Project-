@@ -1,7 +1,7 @@
 #ifndef __GF2D_SPRITE_H__
 #define __GF2D_SPRITE_H__
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "gfc_types.h"
 #include "gfc_color.h"
 #include "gfc_vector.h"

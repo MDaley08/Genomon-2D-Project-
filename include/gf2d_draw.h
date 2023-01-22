@@ -1,7 +1,7 @@
 #ifndef __GF2D_DRAW_H__
 #define __GF2D_DRAW_H__
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "gfc_list.h"
 #include "gfc_vector.h"
 #include "gfc_shape.h"
