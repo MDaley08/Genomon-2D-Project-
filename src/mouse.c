@@ -1,19 +1,28 @@
+#include <SDL2/SDL_image.h>
+#include "stdlib.h"
+#include "gfc_types.h"
 #include "gf2d_graphics.h"
-#include "SDL2/SDL_image.h"
 #include "simple_logger.h"
 #include "mouse.h"
 
-
 static Mouse mouse_obj = {0};
 
-void mouse_init(){
-    mouse_obj.texture = IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/cursor.jpeg");    
-    mouse_obj.rect.w = 50;
-    mouse_obj.rect.h = 50;
+void mouse_close(){
+    if (mouse_obj.texture) SDL_DestroyTexture(mouse_obj.texture);
+    memset(&mouse_obj,0,sizeof(mouse_obj));
+    slog("mouse system closed");
+}
+
+
+void mouse_init(Vector2D cursor_size, Vector3D cursor_color){
+    mouse_obj.texture = IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/cursor.png");   
+    mouse_obj.rect.w = cursor_size.x;
+    mouse_obj.rect.h = cursor_size.y;
     mouse_obj.point.x = mouse_obj.rect.x;
     mouse_obj.point.y = mouse_obj.rect.y;
     SDL_ShowCursor(SDL_DISABLE);
-    SDL_SetTextureColorMod(mouse_obj.texture, 255, 0, 0);
+    SDL_SetTextureColorMod(mouse_obj.texture, cursor_color.x, cursor_color.y, cursor_color.z);
+    atexit(mouse_close);
 }
 
 void mouse_update(){
@@ -43,10 +52,11 @@ void mouse_hide(){
     mouse_obj.hidden = 1;
 }
 
-//commiting out this function until i'm able to test funtionality 
-// Uint8 mouse_in_rect(SDL_Rect *rect){
-//     Uint8 result;
-//     result = SDL_PointInRect(&mouse_obj.point, rect);
-//     return result;
-// }
+void mouse_color(Vector3D cursor_color){
+    SDL_SetTextureColorMod(mouse_obj.texture, cursor_color.x, cursor_color.y, cursor_color.z);
+}
+
+Bool mouse_in_rect(SDL_Rect *rect){
+    return SDL_PointInRect(&mouse_obj.point, rect);
+}
 

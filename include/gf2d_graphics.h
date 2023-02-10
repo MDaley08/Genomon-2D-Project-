@@ -1,6 +1,9 @@
 #ifndef __GF2D_GRAPHICS_C__
 #define __GF2D_GRAPHICS_C__
 
+#define WINDOW_HEIGHT 768
+#define WINDOW_WIDTH 1280
+
 #include <SDL2/SDL.h>
 
 #include "gfc_types.h"
