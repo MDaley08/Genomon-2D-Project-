@@ -53,10 +53,7 @@ void entity_free(Entity *self){
 }
 
 void entity_draw(Entity *self){
-    if(!self->sprite){
-        slog("entity_draw: unable to draw entity");
-        return;
-    }
+    if(!self->sprite)return;
     if(!self->hidden)gf2d_sprite_draw(self->sprite,self->position,NULL,NULL,NULL,NULL,NULL,self->frame);
 }
 
@@ -67,8 +64,29 @@ void entity_draw_all(){
         entity_draw(&entity_manager.entity_list[i]);
     }
 }
+void entity_think(Entity *self){
+    if(!self->think)return;
+    self->think(self);
+}
 
-// void entity_update_all(){
-//     int i;
-//     for(i = 0; i < entity)
-// }
+void entity_think_all(){
+    int i;
+    for(i = 0; i < entity_manager.max_ents; i++){
+        if(!entity_manager.entity_list[i]._inUse) continue;
+        entity_think(&entity_manager.entity_list[i]);
+    }
+}
+
+void entity_update(Entity *self){
+    if(!self->update)return;
+    self->update(self);
+}
+
+void entity_update_all(){
+    int i;
+    for(i = 0; i < entity_manager.max_ents; i++){
+        if(!entity_manager.entity_list[i]._inUse) continue;
+        entity_update(&entity_manager.entity_list[i]);
+    }
+}
+/*eol@eof*/

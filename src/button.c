@@ -1,10 +1,8 @@
 #include "simple_logger.h"
 #include "gfc_types.h"
 #include "gf2d_graphics.h"
+#include "mouse.h"
 #include "button.h"
-
-
-
 typedef struct 
 {
     Uint16 max_buttons;
@@ -54,15 +52,15 @@ void button_free(Button *self){
     memset(&self->button_rect,0,sizeof(self->button_rect));
     memset(&self->think,0,sizeof(self->think));
     memset(&self->text,0,sizeof(self->text));
-    if(self->sprite) gf2d_sprite_delete(self->sprite);
+    if(self->texture) SDL_DestroyTexture(self->texture);
 }
 
 void button_draw(Button *self){
-    if(!self->sprite){
+    if(!self->texture){
         slog("button_draw: unable to draw button");
         return;
     } 
-    if(!self->hidden)gf2d_sprite_draw_image(self->sprite, self->position);
+    if(!self->hidden) SDL_RenderCopy(gf2d_graphics_get_renderer(), self->texture, NULL, &self->button_rect);
 }
 
 void button_draw_all(){
@@ -85,4 +83,30 @@ void button_think_all(){
         button_think(&button_manager.button_list[i]);
     }
 }
+
+void button_update(Button *self){
+    if(!self->update)return;
+    self->update(self);
+}
+
+void button_update_all(){
+    int i;
+    for(i = 0; i < button_manager.max_buttons; i++){
+        if(!button_manager.button_list[i]._inUse) continue;
+        button_update(&button_manager.button_list[i]);
+    }
+}
+
+Uint8 button_interacted(Button *self){
+    if(mouse_in_rect(&self->button_rect)){
+        self->selected = true;
+        if(mouse_button_pressed(0)){
+            return true;
+        }
+    }
+    else{
+        self->selected = false;
+    }
+}
+/*eol@eof*/
 

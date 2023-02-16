@@ -2,16 +2,8 @@
 #define __MOUSE_H__
 
 #include <SDL2/SDL.h>
+#include "gfc_types.h"
 #include "gfc_vector.h"
-
-typedef struct Mouse_S
-{
-    SDL_Texture *texture;
-    SDL_Rect    rect;
-    SDL_Point   point;
-    Uint8       hidden;
-}Mouse;
-
 
 /**
  * @brief initializes mouse system
@@ -32,6 +24,7 @@ void mouse_draw();
 /**
  * @brief checks if mouse is present in a rect
  * @param rect the rect to check aganist
+ * @return true if mouse in rect, false if otherwise
 */
 Bool mouse_in_rect(SDL_Rect *rect);
 
@@ -51,7 +44,12 @@ void mouse_hide();
 */
 void mouse_color(Vector3D cursor_color);
 
-
+/**
+ * @brief check if the mouse button was pressed this frame
+ * @param button the button number to check (left mouse button is 0, right mouse button is 1, etc)
+ * @return 1 if it has, 0 otherwise
+ */
+Bool mouse_button_pressed(int button);
 
 
 

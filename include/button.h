@@ -6,15 +6,18 @@
 #include "gfc_types.h"
 #include "gf2d_sprite.h"
 
+// we must adjust sdl rect to automatically shift with button image.
 typedef struct Button_S
 {
     Uint8           _inUse;
     Bool            hidden;
-    Vector2D        position;
+    Bool            selected;
+    Bool            clicked;
     SDL_Rect        button_rect;
-    Sprite          *sprite;
+    SDL_Texture     *texture;
     char            *text;
     void            (*think)(struct Button_S *button); //what button does on call
+    void            (*update)(struct Button_S *button); //what button does on call
 }Button;
 
 /**
@@ -56,13 +59,29 @@ void button_think(Button *self);
 void button_think_all();
 
 /**
+ * @brief executes the update function 
+ * @param self button in question
+*/
+void button_update(Button *self);
+
+/**
+ * @brief executes update function for all buttons
+*/
+void button_update_all();
+
+
+/**
  * @brief frees previously created system from memory
  * @param self entity to be freed
 */
 void button_free(Button *self);
 
-
-
+/**
+ * @brief checks if a button has been selected by mouse.
+ * @param self button to check.
+ * @return returns true if a button has been clicked
+*/
+Uint8 button_interacted(Button *self);
 
 
 
