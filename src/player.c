@@ -42,4 +42,8 @@ void player_draw(){
     if(!player.ent_info.hidden)gf2d_sprite_draw(player.ent_info.sprite,player.ent_info.position,NULL,NULL,NULL,NULL,NULL,player.ent_info.frame);
 }
 
+Player *player_get(){
+    if(player.ent_info._inUse)return &player;
+}
+
 /*eol@eof*/

@@ -49,10 +49,8 @@ void button_free(Button *self){
         slog("button_free: cannot free unalocated button");
         return;
     }
-    memset(&self->button_rect,0,sizeof(self->button_rect));
-    memset(&self->think,0,sizeof(self->think));
-    memset(&self->text,0,sizeof(self->text));
     if(self->texture) SDL_DestroyTexture(self->texture);
+    memset(&self,0,sizeof(self));
 }
 
 void button_draw(Button *self){
@@ -109,4 +107,3 @@ Uint8 button_interacted(Button *self){
     }
 }
 /*eol@eof*/
-

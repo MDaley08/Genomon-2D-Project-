@@ -9,6 +9,7 @@
 #include "mouse.h"
 #include "button.h"
 #include "player.h"
+#include "item.h"
 
 static int done = 0;
 static Bool turn;
@@ -16,7 +17,7 @@ static const Uint8 *keys;
 
 void game_loop();
 void combat_loop();
-void think(Button *self);
+void *use(Entity *self);
 
 int main(int argc, char * argv[])
 {
@@ -25,7 +26,7 @@ int main(int argc, char * argv[])
     cursor_color = vector3d(0,200,0);
 
     /*program initializtion*/
-    init_logger("gf2d.log");
+    init_logger("gf2d.log",true);
     slog("---==== BEGIN ====---");
     gf2d_graphics_initialize("Genomon",1280,768,1280,768,vector4d(0,0,0,255),0);
     gf2d_graphics_set_frame_delay(15);
@@ -90,6 +91,6 @@ void combat_loop(){
         player_draw();
         gf2d_graphics_next_frame();
     }
-
 }
+
 /*eol@eof*/

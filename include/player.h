@@ -2,13 +2,15 @@
 #define __PLAYER_H__
 
 #include "entity.h"
+#include "genomon.h"
+#include "item.h"
 
 typedef struct {
     struct Entity_S      ent_info;
-    //Item      *inventory; to be written this will be a item.h class that handles all items in game and creation of iventory
-    //Dex       *pokedex;   utilizing pokedex as placeholder this will hold information on all of discovered/caught mon.
-    //Genomon   *team;      to be written, this will be the Genomon currently in the players team
-    //Genomon   *storage;   all the Genomon the player has caught.
+    Entity               team[4];//Genomon currently in the players team
+    Item                 *inventory; //handles all items in game and creation of iventory
+    // Dex       *pokedex;   utilizing pokedex as placeholder this will hold information on all of discovered/caught mon.
+    // Genomon   *storage;   all the Genomon the player has caught.
 }Player;
 
 /**

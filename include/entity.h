@@ -4,19 +4,41 @@
 #include "gfc_vector.h"
 #include "gfc_types.h"
 #include "gf2d_sprite.h"
+#include "skill.h"
+
+typedef enum {
+    GENOMON
+}EntityType;
 
 typedef struct Entity_S
 {
     Bool        _inUse;//denotes if an entity is in use of not
+    char        *name;
+    EntityType  ent_type;
     Bool        hidden;
     Uint32      frame;
     Sprite      *sprite;
     Vector2D    position;
     Vector2D    velocity;
 
+    void    (*damage)(struct Entity_S *self, struct Entity_S inflictor, Uint16 damage); //how a entity takes damage
     void    (*think)(struct Entity_S *self);
     void    (*update)(struct Entity_S *self);
+    void    (*level_up)(struct Entity_S *self);
     void    (*free)(struct Entity_S *self);    
+    //VARIABLES SPECIFIC TO GENOMONS
+
+    Uint8       level; //max level set at 100, though there is no hard cap to stop this.
+    Uint16      experience;// experience taken to level is a sliding scale that will occur muliticatively;
+    Uint16      exp_to_level; //experience needed to reach next level
+    float       exp_multiplier;
+    Uint16      health;
+    Uint16      energy;
+    Uint8       speed;
+    Uint8       strength;
+    Uint8       intellect;
+    Skill       skill_list[4]; // skill container for Genomon, will be limited to 4
+    
     void    *data; //any other data we'd like to include in our entity otherwise
 }Entity;
 
