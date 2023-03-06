@@ -81,7 +81,7 @@ void button_free(Button *self);
  * @param self button to check.
  * @return returns true if a button has been clicked
 */
-Uint8 button_interacted(Button *self);
+Bool button_interacted(Button *self);
 
 
 

@@ -12,7 +12,6 @@
 #include "item.h"
 
 static int done = 0;
-static Bool turn;
 static const Uint8 *keys;
 
 void game_loop();
@@ -46,10 +45,9 @@ int main(int argc, char * argv[])
 
 void game_loop(){
     Sprite  *background;
-    Player *player;
 
     background = gf2d_sprite_load_image("images/backgrounds/background.png");
-    player = player_new(vector2d(640,384));
+    player_new(vector2d(640,384));
 
     while(!done)
     {

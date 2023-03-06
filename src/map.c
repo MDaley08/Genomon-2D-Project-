@@ -4,7 +4,7 @@
 
 
 
-static Map map;
+static Map map = {0};
 
 void map_close();
 

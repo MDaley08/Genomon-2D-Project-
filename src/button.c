@@ -95,7 +95,7 @@ void button_update_all(){
     }
 }
 
-Uint8 button_interacted(Button *self){
+Bool button_interacted(Button *self){
     if(mouse_in_rect(&self->button_rect)){
         self->selected = true;
         if(mouse_button_pressed(0)){
@@ -105,5 +105,6 @@ Uint8 button_interacted(Button *self){
     else{
         self->selected = false;
     }
+    return false;
 }
 /*eol@eof*/

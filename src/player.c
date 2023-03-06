@@ -44,6 +44,7 @@ void player_draw(){
 
 Player *player_get(){
     if(player.ent_info._inUse)return &player;
+    return NULL;
 }
 
 /*eol@eof*/

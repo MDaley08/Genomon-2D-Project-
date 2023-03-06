@@ -21,7 +21,7 @@ typedef struct Entity_S
     Vector2D    position;
     Vector2D    velocity;
 
-    void    (*damage)(struct Entity_S *self, struct Entity_S inflictor, Uint16 damage); //how a entity takes damage
+    void    (*damage)(struct Entity_S *self, struct Entity_S *inflictor, Uint16 damage); //how a entity takes damage
     void    (*think)(struct Entity_S *self);
     void    (*update)(struct Entity_S *self);
     void    (*level_up)(struct Entity_S *self);

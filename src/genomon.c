@@ -1,9 +1,9 @@
 #include "simple_logger.h"
 #include "genomon.h"
 
-void *level_up(Entity *self){
+void level_up(Entity *self){
     if(!self) return;
-    if(!self->level >= 50) return;
+    if(self->level >= 50) return;
     self->level++;
     self->health += 10;
     self->energy += 2;
@@ -13,7 +13,7 @@ void *level_up(Entity *self){
     //TODO have more unique adjustments for increase to stats
 }
 
-void *genomon_damage(Entity *self, Entity *inflictor, Uint16 damage){
+void genomon_damage(Entity *self, Entity *inflictor, Uint16 damage){
     if(!(self && inflictor)) return;
     if(self->health > 0) return;
     self->health -= damage;
@@ -22,6 +22,7 @@ void *genomon_damage(Entity *self, Entity *inflictor, Uint16 damage){
 Entity *genomon_new(){
     //TODO convert to set values utilizing a json.
     Entity *genomon;
+    genomon = entity_new();
     if(!genomon){
         slog("genomon_new: unable to create genomon");
         return NULL;
