@@ -11,9 +11,9 @@
 
 # Linux
 PROJECT = genomon
-CC      = gcc-12
+CC      = gcc
 
-LIB_LIST = ../gfc/libs/libgfc.a ../gfc/simple_json/libs/libsj.a ../gfc/simple_logger/libs/libsl.a 
+LIB_LIST = ../gfc/libs/libgfc.a ../gfc/simple_json/libs/libsj.a ../gfc/simple_logger/libs/libsl.a
 OBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
 
 INC_PATHS = ../include ../gfc/include ../gfc/simple_logger/include ../gfc/simple_json/include
@@ -33,7 +33,7 @@ DOXYGEN = doxygen
 #
 
 $(PROJECT): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LFLAGS) $(LIB_LIST) $(SDL_LDFLAGS) 
+	$(CC) $(OBJECTS) $(LFLAGS) $(LIB_LIST) $(SDL_LDFLAGS)
 
 docs:
 	$(DOXYGEN) doxygen.cfg
@@ -69,5 +69,3 @@ include makefile.dep
 
 .c.o:
 	$(CC) $(CFLAGS) $(SDL_CFLAGS) -c $<
-
-
