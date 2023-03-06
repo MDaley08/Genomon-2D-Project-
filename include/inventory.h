@@ -16,8 +16,4 @@ typedef struct
     InvSlot slots[MAX_INV_SIZE];
 }Inventory;
 
-
-
-
-
 #endif

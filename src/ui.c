@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "button.h"
 
 void ui_init(){
 }
@@ -11,4 +12,7 @@ void combat_ui_draw(){}
 
 void ui_draw(){
 
+}
+void ui_inventory_draw(){
+    
 }

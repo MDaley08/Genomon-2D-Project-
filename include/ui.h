@@ -16,4 +16,9 @@ void combat_ui_draw();
 */
 void ui_draw();
 
+/**
+ * @brief draws the inventory ui of game.
+*/
+void ui_inventory_draw();
+
 #endif
