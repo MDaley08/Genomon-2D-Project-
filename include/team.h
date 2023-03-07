@@ -4,7 +4,7 @@
 #include "gfc_types.h"
 #include "entity.h"
 
-const Uint8 MAX_TEAM_SIZE = 4;
+#define MAX_TEAM_SIZE  4
 
 typedef struct
 {
@@ -14,7 +14,7 @@ typedef struct
 
 typedef struct 
 {
-    TeamSlot    slots[MAX_TEAM_SIZE];
+    TeamSlot    team_slots[MAX_TEAM_SIZE];
 }Team;
 
 /**

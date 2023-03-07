@@ -4,8 +4,8 @@
 void team_free(Team *team){
     int i;
     if(!team) return;
-    for(i = 0; i <= MAX_TEAM_SIZE; i++){
-        entity_free(team->slots[i]->genomon);
+    for(i = 0; i < MAX_TEAM_SIZE; i++){
+        entity_free(team->team_slots[i].genomon);
     }
 }
 
@@ -17,9 +17,9 @@ Team *team_new(){
         slog("team_new: failed to allocate team");
         return NULL;
     }
-    for(i = 0; i <= MAX_TEAM_SIZE; i++){
-        team->slots[i]->_inUse = false;
-        team->slots[i].genomon = NULL;
+    for(i = 0; i < MAX_TEAM_SIZE; i++){
+        team->team_slots[i]._inUse = false;
+        team->team_slots[i].genomon = NULL;
     }
     return team;
 }
@@ -41,8 +41,8 @@ void team_add(Team *team, Uint8 slot_num, Entity *genomon){
         slog("team_add: not a valid entity type, needs to be genomon");
         return;
     }
-    team->slots[slot_num].genomon = genomon;
-    team->slots[slot_num]._inUse = true;
+    team->team_slots[slot_num].genomon = genomon;
+    team->team_slots[slot_num]._inUse = true;
     //TODO add a location check and swap out genomon in slot either to inventory or to another slot in team if swapping slot
 }
 

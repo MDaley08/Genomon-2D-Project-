@@ -10,6 +10,7 @@
 #include "button.h"
 #include "player.h"
 #include "item.h"
+#include "inventory.h"
 
 static int done = 0;
 static const Uint8 *keys;
@@ -29,6 +30,7 @@ int main(int argc, char * argv[])
     slog("---==== BEGIN ====---");
     gf2d_graphics_initialize("Genomon",1280,768,1280,768,vector4d(0,0,0,255),0);
     gf2d_graphics_set_frame_delay(15);
+    inventory_system_init(50);
     gf2d_sprite_init(1024);
     entity_system_init(1024);
     button_system_init(256);
@@ -44,10 +46,15 @@ int main(int argc, char * argv[])
 }
 
 void game_loop(){
-    Sprite  *background;
+    Sprite      *background;
+    Sprite      *inventory_box;
+    Inventory   *inv;
 
     background = gf2d_sprite_load_image("images/backgrounds/background.png");
+    inventory_box = gf2d_sprite_load_image("images/inventory.png");
     player_new(vector2d(640,384));
+
+    inv = inventory_new(vector2d(0,0));
 
     while(!done)
     {
@@ -68,12 +75,16 @@ void game_loop(){
         // all drawing should happen betweem clear_screen and next_frame
             //Backgrounds
             gf2d_sprite_draw_image(background,vector2d(0,0));
+            gf2d_sprite_draw_image(inventory_box,vector2d(250,250));
             //Entities
             entity_draw_all();
             player_draw();
             //UI elements
-            button_draw_all();
+            inventory_draw(inv);
+
+            //mouse 
             mouse_draw();
+
 
         gf2d_graphics_next_frame();// render current draw frame and skip to the next frame
         
