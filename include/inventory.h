@@ -33,7 +33,7 @@ void inventory_system_init(Uint16 max_inventories);
  * @brief creates a new inventory object.
  * @return returns a new inventory object if successful  or NULL if error or unsuccessful.
 */
-Inventory *inventory_new(Vector2D postion);
+Inventory *inventory_new();
 
 /**
  * @brief adds a new item to first free inventory slot.

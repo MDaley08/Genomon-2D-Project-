@@ -47,11 +47,9 @@ int main(int argc, char * argv[])
 
 void game_loop(){
     Sprite      *background;
-    Sprite      *inventory_box;
     Inventory   *inv;
 
     background = gf2d_sprite_load_image("images/backgrounds/background.png");
-    inventory_box = gf2d_sprite_load_image("images/inventory.png");
     player_new(vector2d(640,384));
 
     inv = inventory_new(vector2d(0,0));
@@ -62,7 +60,6 @@ void game_loop(){
         keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
 
         /*think functions here*/
-        button_think_all();
         entity_think_all();
         player_think();
 
@@ -75,7 +72,6 @@ void game_loop(){
         // all drawing should happen betweem clear_screen and next_frame
             //Backgrounds
             gf2d_sprite_draw_image(background,vector2d(0,0));
-            gf2d_sprite_draw_image(inventory_box,vector2d(250,250));
             //Entities
             entity_draw_all();
             player_draw();

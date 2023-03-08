@@ -54,6 +54,7 @@ void button_free(Button *self){
 }
 
 void button_draw(Button *self){
+    if(!self)return;
     if(!self->texture){
         slog("button_draw: unable to draw button");
         return;
@@ -95,16 +96,18 @@ void button_update_all(){
     }
 }
 
-Bool button_interacted(Button *self){
+void button_interacted(Button *self){
+    if(!self) return;
     if(mouse_in_rect(&self->button_rect)){
         self->selected = true;
+        SDL_SetTextureAlphaMod(self->texture,255);
         if(mouse_button_pressed(0)){
-            return true;
+            button_think(self);
         }
     }
     else{
+        SDL_SetTextureAlphaMod(self->texture, 180);
         self->selected = false;
     }
-    return false;
 }
 /*eol@eof*/

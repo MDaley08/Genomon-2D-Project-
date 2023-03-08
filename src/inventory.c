@@ -12,6 +12,10 @@ typedef struct
 
 static InventoryManager  inventory_manager = {0};
 
+void test_think(){
+    slog("test");
+}
+
 void inventory_system_close(){
     int i;
     for(i = 0; i < inventory_manager.max_inventories; i++){
@@ -34,7 +38,7 @@ void inventory_system_init(Uint16 max_inventories){
     slog("inventory_system_init: inventory system initialized.");
 }
 
-Inventory *inventory_new(Vector2D postion){
+Inventory *inventory_new(){
     int i;
     int x_offset;
     int y_offset;
@@ -52,22 +56,27 @@ Inventory *inventory_new(Vector2D postion){
 
     inv->inv_rect.h = 370; // hardcoding inv size(mainly used for displayed inv limited to shop and player)
     inv->inv_rect.w = 370; // hardcoding inv size(mainly used for displayed inv limited to shop and player)
-    inv->inv_rect.x = 0; //setting default to 0
-    inv->inv_rect.y = 0; //setting default to 0
-    inv->inv_tex =  IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/inventories.png");
+    inv->inv_rect.x = 300; //setting default to 0
+    inv->inv_rect.y = 300; //setting default to 0
+    inv->inv_tex =  IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/inventory.png");
 
 
     x_offset = inv->inv_rect.x + 20; //hard coded space between each slot for offset
     y_offset = inv->inv_rect.y + 20; //hard coded space between each slot for offset
     for(i = 0; i < MAX_INV_SIZE; i++){
-        //TODO setup proper initial allocation of inventory
+        //TODO setup proper initial allocation of inventory, we utilize buttons to create inv slots
         inv->inv_slots[i].button = button_new();
         inv->inv_slots[i].button->texture = IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/slot.png");
         inv->inv_slots[i].button->button_rect.h = SLOT_SIZE;
         inv->inv_slots[i].button->button_rect.w = SLOT_SIZE;
         inv->inv_slots[i].button->button_rect.x = x_offset;
         inv->inv_slots[i].button->button_rect.y = y_offset;
-        x_offset += 20;
+        inv->inv_slots[i].button->think = test_think;
+        x_offset += 20 + SLOT_SIZE;
+        if(x_offset >= (inv->inv_rect.x + inv->inv_rect.w)){
+            x_offset = inv->inv_rect.x + 20;
+            y_offset += SLOT_SIZE + 20;
+        }
     }
     return inv;
 }
@@ -81,8 +90,18 @@ void inventory_free(Inventory *self){
 
 void inventory_draw(Inventory *self){
     int i;
+    if(!self){
+        slog("inventory_draw: not a valid inventory");
+        return;
+    }
+    if(!self->inv_tex){
+        slog("inventory_draw: inventory has no background texture");
+        return;
+    }
+    SDL_RenderCopy(gf2d_graphics_get_renderer(), self->inv_tex, NULL, &self->inv_rect);
     for(i = 0; i  < MAX_INV_SIZE; i++){
         button_draw(self->inv_slots[i].button);
+        button_interacted(self->inv_slots[i].button);
     }
 }
 

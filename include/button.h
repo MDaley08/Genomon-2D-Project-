@@ -79,9 +79,8 @@ void button_free(Button *self);
 /**
  * @brief checks if a button has been selected by mouse.
  * @param self button to check.
- * @return returns true if a button has been clicked
 */
-Bool button_interacted(Button *self);
+void button_interacted(Button *self);
 
 
 
