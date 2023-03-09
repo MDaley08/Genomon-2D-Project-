@@ -1,6 +1,5 @@
 #include <SDL2/SDL_image.h>
 #include "gf2d_graphics.h"
-#include "button.h"
 #include "inventory.h"
 
 #define SLOT_SIZE 50
@@ -66,12 +65,12 @@ Inventory *inventory_new(){
     for(i = 0; i < MAX_INV_SIZE; i++){
         //TODO setup proper initial allocation of inventory, we utilize buttons to create inv slots
         inv->inv_slots[i].button = button_new();
+        inv->inv_slots[i]._inUse = false;
         inv->inv_slots[i].button->texture = IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/slot.png");
         inv->inv_slots[i].button->button_rect.h = SLOT_SIZE;
         inv->inv_slots[i].button->button_rect.w = SLOT_SIZE;
         inv->inv_slots[i].button->button_rect.x = x_offset;
         inv->inv_slots[i].button->button_rect.y = y_offset;
-        inv->inv_slots[i].button->think = test_think;
         x_offset += 20 + SLOT_SIZE;
         if(x_offset >= (inv->inv_rect.x + inv->inv_rect.w)){
             x_offset = inv->inv_rect.x + 20;
@@ -103,5 +102,24 @@ void inventory_draw(Inventory *self){
         button_draw(self->inv_slots[i].button);
         button_interacted(self->inv_slots[i].button);
     }
+}
+
+void inventory_add_item(Item *item, Inventory *self){
+    int i;
+    if(!self)return;
+    if(!item)return;
+    for(i = 0; i < MAX_INV_SIZE; i++){
+        if(self->inv_slots[i]._inUse)continue;
+        self->inv_slots->item = item;
+        if(item->use)self->inv_slots->button->think = item->use;
+        if(item->texture){
+            slog("inventory_add_item: item has no texture");
+            return;
+        }
+        item->rect = self->inv_slots->button->button_rect;
+        return;
+    }
+    slog("item_add: inventory has no more free slots");
+    return;
 }
 

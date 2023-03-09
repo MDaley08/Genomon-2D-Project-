@@ -1,3 +1,4 @@
+#include "gf2d_graphics.h"
 #include "item.h"
 #include "simple_logger.h"
 
@@ -38,6 +39,15 @@ void item_use(Item *self, Entity *target){
     self->use(target);
     self->current_count--;
     if(self->current_count <= 0) item_free(self);
+}
+
+void item_draw(Item *self){
+    if(!self)return;
+    if(!self->texture){
+        slog("item_draw: unable to draw item");
+        return;
+    } 
+    SDL_RenderCopy(gf2d_graphics_get_renderer(), self->texture, NULL, &self->rect);
 }
 
 /*eol@eof*/

@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "gfc_types.h"
+#include "button.h"
 #include "item.h"
 
 #define MAX_INV_SIZE 25

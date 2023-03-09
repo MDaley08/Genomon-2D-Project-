@@ -48,11 +48,16 @@ int main(int argc, char * argv[])
 void game_loop(){
     Sprite      *background;
     Inventory   *inv;
+    Item        *item;
 
     background = gf2d_sprite_load_image("images/backgrounds/background.png");
     player_new(vector2d(640,384));
 
-    inv = inventory_new(vector2d(0,0));
+    item = item_new();
+    inv = inventory_new();
+    item->texture = IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/backgrounds/background.png");
+
+    inventory_add_item(item,inv);
 
     while(!done)
     {
@@ -77,6 +82,7 @@ void game_loop(){
             player_draw();
             //UI elements
             inventory_draw(inv);
+            item_draw(item);
 
             //mouse 
             mouse_draw();

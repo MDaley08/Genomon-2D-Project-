@@ -32,13 +32,13 @@ void button_system_init(Uint16 max_buttons);
 Button *button_new();
 /**
  * @brief runs function that occurs on button click
- * @param button button which to execute think function for.
+ * @param self button which to execute think function for.
 */
 void button_think(Button *self);
 
 /**
  * @brief draws button to screen
- * @param button button to draw
+ * @param self button to draw
 */
 void button_draw(Button *self);
 

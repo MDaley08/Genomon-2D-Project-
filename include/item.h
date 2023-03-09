@@ -12,6 +12,7 @@ typedef struct Item_S
     Uint8           max_count;
     Uint8           current_count;
     SDL_Texture     *texture;
+    SDL_Rect        rect;
 
     void            (*use)(Entity *target);
 }Item;
@@ -32,6 +33,11 @@ Item *item_new();
 */
 void item_use(Item *self, Entity *target);
 
+/**
+ * @brief draws item to screen
+ * @param self item to draw
+*/
+void item_draw(Item *self);
 
 
 #endif
