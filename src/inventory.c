@@ -110,13 +110,13 @@ void inventory_add_item(Item *item, Inventory *self){
     if(!item)return;
     for(i = 0; i < MAX_INV_SIZE; i++){
         if(self->inv_slots[i]._inUse)continue;
-        self->inv_slots->item = item;
-        if(item->use)self->inv_slots->button->think = item->use;
+        self->inv_slots[i].item = item;
+        if(item->use)self->inv_slots[i].button->think = item->use;
         if(item->texture){
             slog("inventory_add_item: item has no texture");
             return;
         }
-        item->rect = self->inv_slots->button->button_rect;
+        item->rect = self->inv_slots[i].button->button_rect;
         return;
     }
     slog("item_add: inventory has no more free slots");

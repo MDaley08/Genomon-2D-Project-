@@ -39,5 +39,7 @@ void item_use(Item *self, Entity *target);
 */
 void item_draw(Item *self);
 
+//TODO figure out why item image not loading.
+
 
 #endif
