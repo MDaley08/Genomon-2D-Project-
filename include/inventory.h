@@ -11,6 +11,7 @@
 typedef struct
 {
     Bool    _inUse;
+    Bool    interacted;
     Item    *item;
     Button  *button;
 }InvSlot;
