@@ -1,9 +1,10 @@
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "gfc_vector.h"
 #include "gfc_types.h"
-#include "gf2d_sprite.h"
 #include "skill.h"
 
 typedef enum {
@@ -17,7 +18,8 @@ typedef struct Entity_S
     EntityType  ent_type;
     Bool        hidden;
     Uint32      frame;
-    Sprite      *sprite;
+    SDL_Texture *texture;
+    SDL_Rect    rect;
     Vector2D    position;
     Vector2D    velocity;
 
@@ -25,9 +27,10 @@ typedef struct Entity_S
     void    (*think)(struct Entity_S *self);
     void    (*update)(struct Entity_S *self);
     void    (*level_up)(struct Entity_S *self);
-    void    (*free)(struct Entity_S *self);    
-    //VARIABLES SPECIFIC TO GENOMONS
+    void    (*draw)(struct Entity_S *self, int side);// side specifies front of back, 0 for front, 1 for back
+    void    (*free)(struct Entity_S *self);
 
+    //VARIABLES SPECIFIC TO GENOMONS
     Uint8       level; //max level set at 100, though there is no hard cap to stop this.
     Uint16      experience;// experience taken to level is a sliding scale that will occur muliticatively;
     Uint16      exp_to_level; //experience needed to reach next level

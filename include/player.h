@@ -4,12 +4,14 @@
 #include "entity.h"
 #include "genomon.h"
 #include "team.h"
-#include "item.h"
+#include  "inventory.h"
 
 typedef struct {
     struct Entity_S      ent_info;
     Team                 *team;//Genomon currently in the players team
-    Item                 *inventory; //handles all items in game and creation of iventory
+    Inventory            *inventory; //handles all items in game and creation of iventory
+    SDL_Rect             frames[24];
+    int                  frame_num;
     // Dex       *pokedex;   utilizing pokedex as placeholder this will hold information on all of discovered/caught mon.
     // Genomon   *storage;   all the Genomon the player has caught.
 }Player;

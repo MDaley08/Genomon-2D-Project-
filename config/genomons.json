@@ -1,0 +1,107 @@
+{
+    "cobalion":
+    {
+        "name": "Cobalion",
+        "texture":"images/mons/cobalion.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+
+    "beartic":
+    {
+        "name": "Beartic",
+        "texture":"images/mons/beartic.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+    "electivire":
+    {
+        "name": "Electivire",
+        "texture":"images/mons/electivire.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+
+    "exploud":
+    {
+        "name": "Exploud",
+        "texture":"images/mons/exploud.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+    "flygon":
+    {
+        "name": "Flygon",
+        "texture":"images/mons/flygon.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+
+    "garchomp":
+    {
+        "name": "Garchomp",
+        "texture":"images/mons/garchomp.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+    "gardevoir":
+    {
+        "name": "Gardevoir",
+        "texture":"images/mons/gardevoir.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+
+    "lopunny":
+    {
+        "name": "Lopunny",
+        "texture":"images/mons/Lopunny.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+    "Lucario":
+    {
+        "name": "Lucario",
+        "texture":"images/mons/Lucario",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    },
+
+    "togekiss":
+    {
+        "name": "Togekiss",
+        "texture":"images/mons/togekiss.png",
+        "health": 250,
+        "energy" : 100,
+        "speed": 50,
+        "strength": 50,
+        "intellect": 50
+    }
+}

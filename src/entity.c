@@ -1,5 +1,6 @@
-#include "entity.h"
 #include "simple_logger.h"
+#include "gf2d_graphics.h"
+#include "entity.h"
 
 typedef struct 
 {
@@ -49,12 +50,17 @@ void entity_free(Entity *self){
     if(self->free){//checking if free variable of Entity is populated, if it is run code 
         self->free(self);
     }
-    gf2d_sprite_delete(self->sprite);
+    SDL_DestroyTexture(self->texture);
 }
 
 void entity_draw(Entity *self){
-    if(!self->sprite)return;
-    if(!self->hidden)gf2d_sprite_draw(self->sprite,self->position,NULL,NULL,NULL,NULL,NULL,self->frame);
+    if(!self->texture)return;
+    if(self->hidden)return;
+    if(self->draw){
+        self->draw(self,0);
+        return;
+    }
+    SDL_RenderCopy(gf2d_graphics_get_renderer(),self->texture,NULL,&self->rect);
 }
 
 void entity_draw_all(){

@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include "gfc_shape.h"
 #include "gfc_types.h"
-#include "gf2d_sprite.h"
 
 // we must adjust sdl rect to automatically shift with button image.
 typedef struct Button_S

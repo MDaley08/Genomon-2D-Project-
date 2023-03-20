@@ -1,4 +1,5 @@
 #include "combat.h"
+#include "player.h"
 
 
 void combat_close();
