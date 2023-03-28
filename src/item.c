@@ -1,6 +1,6 @@
+#include "simple_logger.h"
 #include "gf2d_graphics.h"
 #include "item.h"
-#include "simple_logger.h"
 
 void item_free(Item *self){
     if(!self)return;
@@ -18,7 +18,6 @@ Item *item_new(){
         return NULL;
     }
     item->name = NULL;
-    item->use = NULL;
     item->texture = NULL;
     item->current_count = 1;
     item->max_count = 99;

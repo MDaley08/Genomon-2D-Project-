@@ -2,7 +2,7 @@
     "cobalion":
     {
         "name": "Cobalion",
-        "texture":"images/mons/cobalion.png",
+        "sprite":"images/mons/cobalion.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -13,7 +13,7 @@
     "beartic":
     {
         "name": "Beartic",
-        "texture":"images/mons/beartic.png",
+        "sprite":"images/mons/beartic.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -23,7 +23,7 @@
     "electivire":
     {
         "name": "Electivire",
-        "texture":"images/mons/electivire.png",
+        "sprite":"images/mons/electivire.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -34,7 +34,7 @@
     "exploud":
     {
         "name": "Exploud",
-        "texture":"images/mons/exploud.png",
+        "sprite":"images/mons/exploud.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -44,7 +44,7 @@
     "flygon":
     {
         "name": "Flygon",
-        "texture":"images/mons/flygon.png",
+        "sprite":"images/mons/flygon.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -55,7 +55,7 @@
     "garchomp":
     {
         "name": "Garchomp",
-        "texture":"images/mons/garchomp.png",
+        "sprite":"images/mons/garchomp.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -65,7 +65,7 @@
     "gardevoir":
     {
         "name": "Gardevoir",
-        "texture":"images/mons/gardevoir.png",
+        "sprite":"images/mons/gardevoir.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -76,7 +76,7 @@
     "lopunny":
     {
         "name": "Lopunny",
-        "texture":"images/mons/Lopunny.png",
+        "sprite":"images/mons/lopunny.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -86,7 +86,7 @@
     "Lucario":
     {
         "name": "Lucario",
-        "texture":"images/mons/Lucario",
+        "sprite":"images/mons/lucario",
         "health": 250,
         "energy" : 100,
         "speed": 50,
@@ -97,7 +97,7 @@
     "togekiss":
     {
         "name": "Togekiss",
-        "texture":"images/mons/togekiss.png",
+        "sprite":"images/mons/togekiss.png",
         "health": 250,
         "energy" : 100,
         "speed": 50,

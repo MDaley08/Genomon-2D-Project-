@@ -12,7 +12,7 @@ void team_free(Team *team){
 Team *team_new(){
     Team *team;
     int i;
-    team = gfc_allocate_array(sizeof(*team), 1);
+    team = gfc_allocate_array(sizeof(Team), 1);
     if(!team){
         slog("team_new: failed to allocate team");
         return NULL;

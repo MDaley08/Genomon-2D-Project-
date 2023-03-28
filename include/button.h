@@ -71,15 +71,16 @@ void button_update_all();
 
 /**
  * @brief frees previously created system from memory
- * @param self entity to be freed
+ * @param self button to be freed
 */
 void button_free(Button *self);
 
 /**
  * @brief checks if a button has been selected by mouse.
  * @param self button to check.
+ * @return false if button not interacted with(mouse in button reigon), false other wise.
 */
-void button_interacted(Button *self);
+Bool button_interacted(Button *self);
 
 
 

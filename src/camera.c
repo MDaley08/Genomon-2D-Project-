@@ -3,28 +3,42 @@
 #include "camera.h"
 
 
-SDL_Rect _camera  = {0};
+static Camera camera = {0};
 
-void camera_system_init(){
-    _camera.x = 0;
-    _camera.x = 0;
-    _camera.w = WINDOW_WIDTH;
-    _camera.h = WINDOW_HEIGHT;
+void camera_set_position(Vector2D position){
+    camera.position = position;
 }
 
-void camera_follow(Entity *ent){
-    if(!ent){
-        slog("camera_follow: entity not found");
-        return;
-    }
-    _camera.x = ent->rect.x - WINDOW_WIDTH / 2;
-    _camera.y = ent->rect.y - WINDOW_HEIGHT / 2;
-    if(_camera.x < 0) _camera.x = 0;
-    if(_camera.y < 0) _camera.y = 0;
+Vector2D camera_get_position(){
+    return camera.position;
 }
 
-SDL_Rect *camera_get(){
-    return &_camera;
+void camera_set_world_size(Vector2D size){
+    camera.size = size;
 }
 
+Vector2D camera_get_draw_offset(){
+    Vector2D offset = {0};
+    vector2d_negate(offset,camera.position);
+    return offset;
+}
+
+void camera_world_snap(){
+    Vector2D res;
+    res = gf2d_graphics_get_resolution();
+    if (camera.position.x < 0)camera.position.x = 0;
+    if (camera.position.y < 0)camera.position.y = 0;
+    if (camera.position.x + res.x > camera.size.x)camera.position.x = camera.size.x - res.x;
+    if (camera.position.y + res.y > camera.size.y)camera.position.y = camera.size.y - res.y;
+}
+
+void camera_center_at(Vector2D position){
+    Vector2D cam = {0};
+    Vector2D res;
+    res = gf2d_graphics_get_resolution();
+    vector2d_scale(res,res,0.5);
+    vector2d_sub(cam,position,res);
+    camera_set_position(cam);
+
+}
 /*eol@eof*/

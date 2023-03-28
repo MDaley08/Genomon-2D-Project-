@@ -1,77 +1,71 @@
 #include "simple_logger.h"
 #include "gfc_input.h"
 #include "gf2d_graphics.h"
-#include "player.h"
 #include "camera.h"
+#include "level.h"
+#include "player.h"
 
 
-static Player player = {0};
+static Entity player = {0};
 
 void player_free(){
-    entity_free(&player.ent_info);
     memset(&player,0,sizeof(player));
 }
 
-Player *player_new(Vector2D position){
-    if(player.ent_info._inUse){
-        slog("player_new: unable to create a new player object while one exists");
-        return NULL;
-    }
-    int i; // 4 sprites in image
-    int sprite_size; // sprite sheet has 32 x 32 sprits 
-    sprite_size = 128;
+Entity *player_new(Vector2D position){
+    if(player._inUse)player_free();
 
-    player.ent_info._inUse = true;
-    player.ent_info.rect.x = player.ent_info.position.x = position.x;
-    player.ent_info.rect.y = player.ent_info.position.y = position.y;
-    player.ent_info.rect.h = 64;
-    player.ent_info.rect.w = 64;
-    player.ent_info.texture = IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/player.png");
-    for(i = 0; i < 4; i++){//sprite sheet we are using has 4 sprites, hard coding
-        player.frames[i].x =  i * sprite_size;
-        player.frames[i].y = 0;
-        player.frames[i].h = sprite_size;
-        player.frames[i].w = sprite_size;
-    }
+    player._inUse = true;
+    player.moveSpeed = 2; //putting a base value of 1 for speed
+    player.drawOffset = vector2d(16,16);
+    player.drawScale = vector2d(0.5,0.5);
+    player.shape = gfc_shape_rect(player.position.x,player.position.y,60,60);
+    player.sprite = gf2d_sprite_load_all("images/player.png",128,128,4,0);
+    vector2d_copy(player.position,position);
     return &player;
 }
 
 void player_think(){
-    float move_distance = 1;
 
     if(gfc_input_key_pressed("w")){
-        player.ent_info.position.y -= move_distance;
-        player.frame_num = 0;
+        player.velocity.y -= player.moveSpeed;
+        player.frame = 0;
     }
     else if(gfc_input_key_pressed("a")){
-        player.ent_info.position.x -= move_distance;
-        player.frame_num = 2;
+        player.velocity.x -= player.moveSpeed;
+        player.frame = 2;
     }
     else if(gfc_input_key_pressed("s")){
-        player.ent_info.position.y += move_distance;
-        player.frame_num = 1;
+        player.velocity.y += player.moveSpeed;
+        player.frame = 1;
     }
     else if(gfc_input_key_pressed("d")){
-        player.ent_info.position.x += move_distance;
-        player.frame_num = 3;
+        player.velocity.x += player.moveSpeed;
+        player.frame = 3;
     }
+    else
+    {
+          vector2d_clear(player.velocity);
+    }
+
+    vector2d_set_magnitude(&player.velocity,player.moveSpeed);
+
+    camera_center_at(player.position);
 }
 
 void player_update(){
-    player.ent_info.rect.x = player.ent_info.position.x;
-    player.ent_info.rect.y = player.ent_info.position.y;
+    if(level_shape_clip(level_get_active_level(),entity_get_shape_after_move(&player))){
+        return;
+    }
+    vector2d_add(player.position,player.position,player.velocity);
 }
 
 void player_draw(){
-    if(!player.ent_info.texture){
-        slog("player_draw: unable to draw player");
-        return;
-    }
-    if(!player.ent_info.hidden)SDL_RenderCopy(gf2d_graphics_get_renderer(),player.ent_info.texture,&player.frames[player.frame_num],&player.ent_info.rect);
+    entity_draw(&player);
 }
 
-Player *player_get(){
-    if(player.ent_info._inUse)return &player;
+Entity *player_get(){
+    if(player._inUse)return &player;
     return NULL;
 }
 

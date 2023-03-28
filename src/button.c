@@ -96,18 +96,20 @@ void button_update_all(){
     }
 }
 
-void button_interacted(Button *self){
-    if(!self) return;
+Bool button_interacted(Button *self){
+    if(!self) return false;
     if(mouse_in_rect(&self->button_rect)){
         self->selected = true;
         SDL_SetTextureAlphaMod(self->texture,255);
+        return true;
         if(mouse_button_pressed(0)){
             button_think(self);
         }
     }
     else{
-        SDL_SetTextureAlphaMod(self->texture, 180);
+        SDL_SetTextureAlphaMod(self->texture, 200);
         self->selected = false;
+        return false;
     }
 }
 /*eol@eof*/

@@ -11,7 +11,7 @@
 
 # Linux
 PROJECT = genomon
-CC      = gcc-12
+CC      = gcc
 
 LIB_LIST = ../gfc/libs/libgfc.a ../gfc/simple_json/libs/libsj.a ../gfc/simple_logger/libs/libsl.a
 OBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))

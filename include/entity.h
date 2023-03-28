@@ -1,10 +1,9 @@
 #ifndef __ENTITY_H__
 #define __ENTITY_H__
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include "gfc_vector.h"
 #include "gfc_types.h"
+#include "gfc_shape.h"
+#include "gf2d_sprite.h"
 #include "skill.h"
 
 typedef enum {
@@ -17,21 +16,26 @@ typedef struct Entity_S
     char        *name;
     EntityType  ent_type;
     Bool        hidden;
-    Uint32      frame;
-    SDL_Texture *texture;
-    SDL_Rect    rect;
+    Uint8       frame;
+    Vector2D    drawOffset;
+    Vector2D    drawScale;
+    Sprite      *sprite;
+
+    //VARIBLES RELATED TO ENT PHYSICS
+    Shape       shape;
     Vector2D    position;
     Vector2D    velocity;
+    float       moveSpeed;
 
     void    (*damage)(struct Entity_S *self, struct Entity_S *inflictor, Uint16 damage); //how a entity takes damage
     void    (*think)(struct Entity_S *self);
     void    (*update)(struct Entity_S *self);
     void    (*level_up)(struct Entity_S *self);
-    void    (*draw)(struct Entity_S *self, int side);// side specifies front of back, 0 for front, 1 for back
+    void    (*draw)(struct Entity_S *self);
     void    (*free)(struct Entity_S *self);
 
     //VARIABLES SPECIFIC TO GENOMONS
-    Uint8       level; //max level set at 100, though there is no hard cap to stop this.
+    Uint8       level; //max level set at 100, though there is no hard cap to enforce this.
     Uint16      experience;// experience taken to level is a sliding scale that will occur muliticatively;
     Uint16      exp_to_level; //experience needed to reach next level
     float       exp_multiplier;
@@ -42,6 +46,9 @@ typedef struct Entity_S
     Uint8       intellect;
     Skill       skill_list[4]; // skill container for Genomon, will be limited to 4
     
+    //VARIABLES SPECIFIC TO PLAYER/SHOPKEEPER/NPC
+    //Team                 *team;//Genomon currently in the players team
+
     void    *data; //any other data we'd like to include in our entity otherwise
 }Entity;
 
@@ -93,6 +100,20 @@ void entity_think(Entity *self);
  * @brief executes think function for all entities
 */
 void entity_think_all();
+
+/**
+ * @brief given an entity get its shape in world space
+ * @param ent the entity to check
+ * @return a shape where its position is set to the world position
+ */
+Shape entity_get_shape(Entity *self);
+
+/**
+ * @brief given an entity get its shape in world space where it will be after it moves
+ * @param ent the entity to check
+ * @return a shape where its position + velocity is set to the world position
+ */
+Shape entity_get_shape_after_move(Entity *self);
 
 
 #endif

@@ -1,20 +1,25 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
 
-#include <SDL2/SDL.h>
-#include "entity.h"
+#include "gfc_vector.h"
 
+typedef struct {
+    Vector2D position; 
+    Vector2D size; 
+}Camera;
 /**
- * @brief allocates resouse and assigns initial values for camera system
+ * @brief sets position of camera
+ * @param position position to place camera
 */
-void camera_system_init();
+void camera_set_position(Vector2D position);
 
-/**
- * @brief camera follows an entity
- * @param ent entity to follow
-*/
-void camera_follow(Entity *ent);
+Vector2D camera_get_position();
 
-SDL_Rect *camera_get();
+void camera_set_world_size(Vector2D size);
 
+Vector2D camera_get_draw_offset();
+
+void camera_world_snap();
+
+void camera_center_at(Vector2D position);
 #endif

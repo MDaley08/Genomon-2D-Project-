@@ -12,10 +12,12 @@
 #include "item.h"
 #include "inventory.h"
 #include "camera.h"
+#include "level.h"
+
 
 static int close = 0;
 static const Uint8 *keys;
-Player *player;
+Entity *player;
 
 void game_loop();
 void combat_loop();
@@ -32,14 +34,13 @@ int main(int argc, char * argv[])
     slog("---==== BEGIN ====---");
     gf2d_graphics_initialize("Genomon",WINDOW_WIDTH,WINDOW_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,vector4d(0,0,0,255),0);
     gf2d_graphics_set_frame_delay(15);
-    //inventory_system_init(50);
+    inventory_system_init(50);
     gf2d_sprite_init(1024);
     entity_system_init(1024);
     button_system_init(256);
-    camera_system_init();
     gfc_input_init("gfc/sample_config/input.cfg");
     mouse_init(vector2d(25,25), cursor_color);
-    player = player_new(vector2d(640,384));
+    player = player_new(vector2d(100,100));
 
     /*demo setup*/
 
@@ -51,11 +52,23 @@ int main(int argc, char * argv[])
 
 
 void game_loop(){
+    Vector2D cam;
     Sprite      *background;
     Inventory   *inv;
     Item        *item;
+    Level       *level;
+
+    level = level_load("config/test.level");
+    level_set_active_level(level);
 
     background = gf2d_sprite_load_image("images/backgrounds/background.png");
+
+    item = item_new();
+    inv = inventory_new();
+    item->texture = IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/dire-hit.png");
+
+    inventory_add_item(item,inv);
+
     while(!close)
     {
         SDL_PumpEvents();
@@ -65,17 +78,21 @@ void game_loop(){
         entity_think_all();
         player_think();
 
+
         /*update things here*/
         mouse_update();
         button_update_all();
-        player_update();
-        camera_follow(&player->ent_info);
+        entity_update(player);
 
-   
+        player_update();
+        camera_world_snap();
+
+
         gf2d_graphics_clear_screen();// clears drawing buffers
         // all drawing should happen betweem clear_screen and next_frame
             //Backgrounds
             gf2d_sprite_draw_image(background,vector2d(0,0));
+            level_draw(level);
             //Entities
             player_draw();
             //UI elements
@@ -97,23 +114,21 @@ void combat_loop(){
     Sprite      *background;
     background = gf2d_sprite_load_image("images/backgrounds/battlefield_01.png");
     Entity *geno;
-    geno = genomon_new("lopunny", vector2d(500,500));
+    geno = genomon_new("togekiss", vector2d(40,40));
     while(!done){
         SDL_PumpEvents();
         keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
         //think functions
-        player_think();
+
         //update functions
         gf2d_graphics_clear_screen();// clears drawing buffers
         // all drawing should happen betweem clear_screen and next_frame
             //Background
             gf2d_sprite_draw_image(background,vector2d(0,0));
             //ents
-            player_draw();
             entity_draw(geno);
 
             //ui
-            SDL_RenderDrawRect(gf2d_graphics_get_renderer(),&geno->rect);
             
             //mouse
             mouse_draw();

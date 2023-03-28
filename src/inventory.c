@@ -55,8 +55,8 @@ Inventory *inventory_new(){
 
     inv->inv_rect.h = 370; // hardcoding inv size(mainly used for displayed inv limited to shop and player)
     inv->inv_rect.w = 370; // hardcoding inv size(mainly used for displayed inv limited to shop and player)
-    inv->inv_rect.x = 300; //setting default to 0
-    inv->inv_rect.y = 300; //setting default to 0
+    inv->inv_rect.x = 0; //setting default to 0
+    inv->inv_rect.y = 0; //setting default to 0
     inv->inv_tex =  IMG_LoadTexture(gf2d_graphics_get_renderer(),"images/inventory.png");
 
 
@@ -88,6 +88,7 @@ void inventory_free(Inventory *self){
 }
 
 void inventory_draw(Inventory *self){
+    //TODO reformat code to remove copy and pasted checks
     int i;
     if(!self){
         slog("inventory_draw: not a valid inventory");
@@ -100,7 +101,17 @@ void inventory_draw(Inventory *self){
     SDL_RenderCopy(gf2d_graphics_get_renderer(), self->inv_tex, NULL, &self->inv_rect);
     for(i = 0; i  < MAX_INV_SIZE; i++){
         button_draw(self->inv_slots[i].button);
-        button_interacted(self->inv_slots[i].button);
+        if(button_interacted(self->inv_slots[i].button)){
+            if(!self->inv_slots[i].item)continue;
+            if(!self->inv_slots[i].item->texture) continue;
+            SDL_SetTextureAlphaMod(self->inv_slots[i].item->texture,255);
+            item_draw(self->inv_slots[i].item);
+            continue;
+        }
+        if(!self->inv_slots[i].item)continue;
+        if(!self->inv_slots[i].item->texture) continue;
+        SDL_SetTextureAlphaMod(self->inv_slots[i].item->texture,200);
+        item_draw(self->inv_slots[i].item);
     }
 }
 
@@ -117,11 +128,10 @@ void inventory_add_item(Item *item, Inventory *self){
             return;
         }
         item->rect = self->inv_slots[i].button->button_rect;
-
-        item->rect.x += 10;
-        item->rect.y += 10;
-        item->rect.h -= 20;
-        item->rect.w -= 20;
+        item->rect.x += 5;
+        item->rect.y += 5;
+        item->rect.h -= 10;
+        item->rect.w -= 10;
         
         return;
     }

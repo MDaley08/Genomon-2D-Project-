@@ -1,5 +1,8 @@
 #include "simple_logger.h"
 #include "gf2d_graphics.h"
+#include "gf2d_draw.h"
+#include "camera.h"
+#include "level.h"
 #include "entity.h"
 
 typedef struct 
@@ -27,8 +30,8 @@ void entity_system_init(Uint16 max_ents){
         return;
     }
     entity_manager.max_ents = max_ents;
-    atexit(entity_system_close);
     slog("entity_system_init: entity system initialized.");
+    atexit(entity_system_close);
 }
 
 Entity *entity_new(){
@@ -36,6 +39,7 @@ Entity *entity_new(){
     for(i = 0; i < entity_manager.max_ents; i++){
         if(entity_manager.entity_list[i]._inUse)continue;
         entity_manager.entity_list[i]._inUse = true;
+        entity_manager.entity_list[i].drawScale = vector2d(1,1);
         return &entity_manager.entity_list[i];
     }
     slog("entity_new: max ents allocated, unable to allocate new ent");
@@ -50,17 +54,22 @@ void entity_free(Entity *self){
     if(self->free){//checking if free variable of Entity is populated, if it is run code 
         self->free(self);
     }
-    SDL_DestroyTexture(self->texture);
+    if(self->sprite)gf2d_sprite_free(self->sprite);
+    memset(self,0,sizeof(Entity));
 }
 
 void entity_draw(Entity *self){
-    if(!self->texture)return;
+    Vector2D drawPosition, camera_offset;
+    if(!self)return;
+    if(!self->sprite)return;
     if(self->hidden)return;
     if(self->draw){
-        self->draw(self,0);
+        self->draw(self);
         return;
     }
-    SDL_RenderCopy(gf2d_graphics_get_renderer(),self->texture,NULL,&self->rect);
+    camera_offset = camera_get_draw_offset();
+    vector2d_add(drawPosition,self->position,camera_offset);
+    gf2d_sprite_draw(self->sprite,drawPosition,&self->drawScale,&self->drawOffset,NULL,NULL,NULL,self->frame);
 }
 
 void entity_draw_all(){
@@ -86,6 +95,12 @@ void entity_think_all(){
 void entity_update(Entity *self){
     if(!self->update)return;
     self->update(self);
+    if (level_shape_clip(level_get_active_level(),entity_get_shape_after_move(self)))
+    {
+        //our next position is a hit, so don't move
+        return;
+    }
+    vector2d_add(self->position,self->position,self->velocity);
 }
 
 void entity_update_all(){
@@ -95,4 +110,24 @@ void entity_update_all(){
         entity_update(&entity_manager.entity_list[i]);
     }
 }
+
+Shape entity_get_shape_after_move(Entity *self){
+    Shape shape = {0};
+    if (!self)return shape;
+    gfc_shape_copy(&shape,self->shape);
+    gfc_shape_move(&shape,self->position);
+    gfc_shape_move(&shape,self->velocity);
+    return shape;
+}
+
+Shape entity_get_shape(Entity *self)
+{
+    Shape shape = {0};
+    if (!self)return shape;
+    gfc_shape_copy(&shape,self->shape);
+    gfc_shape_move(&shape,self->position);
+    return shape;
+}
+
+
 /*eol@eof*/
